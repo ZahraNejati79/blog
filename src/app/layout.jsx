@@ -3,7 +3,10 @@ import vazirFont from "@/constants/localFont";
 import "@/styles/globals.css";
 
 export const metadata = {
-  title: "بلاگ اپ",
+  title: {
+    template: "%s | بلاگ اپ",
+    default: "بلاگ اپ",
+  },
   description: "وب اپلیکیشن مدیریت بلاگ ها و نظرات کاربران",
 };
 
