@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import vazirFont from "constants/localFont";
 
 export const metadata = {
   title: "Create Next App",
@@ -8,7 +9,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fa" dir="rtl">
-      <body>{children}</body>
+      <body className={`${vazirFont.className} font-sans`}>{children}</body>
     </html>
   );
 }
