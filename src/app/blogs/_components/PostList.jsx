@@ -1,6 +1,10 @@
 import Image from "next/image";
 import React from "react";
 import CoverImage from "./CoverImage";
+import Link from "next/link";
+import { ClockIcon } from "@heroicons/react/24/outline";
+import Avatar from "@/ui/Avatar";
+import Author from "./Author";
 
 export default async function PostList() {
   await new Promise((res) => setTimeout(() => res(), 3000));
@@ -10,14 +14,13 @@ export default async function PostList() {
     data: { posts },
   } = await res.json();
 
-  console.log("posts", posts);
   return posts.length > 0 ? (
     <div className="grid grid-cols-12 gap-8">
       {posts.map((post) => {
         return (
           <div
             key={post.id}
-            className="col-span-12 sm:col-span-6 md:col-span-6 lg:col-span-6 xl:col-span-4 border border-secondary-100 p-2 rounded-lg"
+            className="col-span-12 sm:col-span-6 md:col-span-6 lg:col-span-6 xl:col-span-4 border border-secondary-100 rounded-lg overflow-hidden"
           >
             <CoverImage {...post} />
 
@@ -29,6 +32,7 @@ export default async function PostList() {
               </Link>
 
               <div className="flex items-center  justify-between mb-4">
+                <Author {...post.author} />
                 <div className="flex items-center text-[10px] text-secondary-500">
                   <ClockIcon className="w-4 h-4 stroke-secondary-500 ml-1" />
                   <span className="ml-1"> خواندن:</span>
