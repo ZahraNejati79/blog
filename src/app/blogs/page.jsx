@@ -8,7 +8,7 @@ export const metadata = {
 
 async function BlogPage() {
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <div>
         لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده
         از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و
