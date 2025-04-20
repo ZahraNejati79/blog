@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import Avatar from "@/ui/Avatar";
 import Author from "./Author";
+import PostIntaction from "./PostIntaction";
 
 export default async function PostList() {
   await new Promise((res) => setTimeout(() => res(), 3000));
@@ -40,6 +41,8 @@ export default async function PostList() {
                   <span>دقیقه</span>
                 </div>
               </div>
+
+              <PostIntaction post={post} />
             </div>
           </div>
         );
