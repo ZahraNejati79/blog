@@ -6,14 +6,17 @@ import { ClockIcon } from "@heroicons/react/24/outline";
 import Avatar from "@/ui/Avatar";
 import Author from "./Author";
 import PostIntaction from "./PostIntaction";
+import { getPosts } from "@/services/postServices";
 
 export default async function PostList() {
   await new Promise((res) => setTimeout(() => res(), 3000));
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/list`);
-  const {
-    data: { posts },
-  } = await res.json();
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/list`);
+  // const {
+  //   data: { posts },
+  // } = await res.json();
+
+  const posts = await getPosts();
 
   return posts.length > 0 ? (
     <div className="grid grid-cols-12 gap-8">
