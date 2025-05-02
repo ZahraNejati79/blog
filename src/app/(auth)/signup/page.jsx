@@ -1,10 +1,13 @@
 "use client";
 import Button from "@/ui/Button";
 import RHFTextField from "@/ui/RHFTextField";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { signupApi } from "@/services/authApiService";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const schema = yup
   .object({
@@ -28,10 +31,16 @@ export default function Signup() {
     mode: "onTouched",
   });
 
-  const onSubmit = (values) => {
-    console.log("====================================");
-    console.log(values);
-    console.log("====================================");
+  const router = useRouter();
+
+  const onSubmit = async (values) => {
+    try {
+      const { message } = await signupApi(values);
+      toast.success(message);
+      router.push("/profile");
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
   };
 
   return (
@@ -51,6 +60,7 @@ export default function Signup() {
           register={register}
           isRequired
           errors={errors}
+          dir="ltr"
         />
         <RHFTextField
           label={"رمز عبور"}
@@ -58,6 +68,7 @@ export default function Signup() {
           register={register}
           isRequired
           errors={errors}
+          dir="ltr"
         />
         <Button type="submit" variant="primary" className="w-full">
           تایید
