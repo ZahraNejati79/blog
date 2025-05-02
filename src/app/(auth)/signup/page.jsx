@@ -73,6 +73,9 @@ export default function Signup() {
         <Button type="submit" variant="primary" className="w-full">
           تایید
         </Button>
+        <Link href={"/signin"} className="text-secondary-500 mt-6 text-center">
+          ورود
+        </Link>
       </form>
     </div>
   );
