@@ -8,6 +8,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signupApi } from "@/services/authApiService";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const schema = yup
   .object({
@@ -31,16 +33,10 @@ export default function Signup() {
     mode: "onTouched",
   });
 
-  const router = useRouter();
+  const { signup } = useAuth();
 
   const onSubmit = async (values) => {
-    try {
-      const { message } = await signupApi(values);
-      toast.success(message);
-      router.push("/profile");
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-    }
+    await signup(values);
   };
 
   return (

@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/context/AuthContext";
 import { signinApi } from "@/services/authApiService";
 import Button from "@/ui/Button";
 import RHFTextField from "@/ui/RHFTextField";
@@ -24,13 +25,9 @@ export default function page() {
     mode: "onTouched",
   });
 
+  const { signin } = useAuth();
   const onSubmit = async (values) => {
-    try {
-      const { message } = await signinApi(values);
-      toast.success(message);
-    } catch (error) {
-      toast.error(error?.response?.data?.message);
-    }
+    await signin(values);
   };
 
   return (
