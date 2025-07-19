@@ -9,6 +9,5 @@ export async function signinApi(data) {
 }
 
 export async function getUserApi() {
-  alert("getUserApi");
   return http.get("/user/profile").then(({ data }) => data.data);
 }

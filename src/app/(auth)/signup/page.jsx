@@ -5,9 +5,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { signupApi } from "@/services/authApiService";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 
@@ -66,9 +63,15 @@ export default function Signup() {
           errors={errors}
           dir="ltr"
         />
-        <Button type="submit" variant="primary" className="w-full">
-          تایید
-        </Button>
+        {isLoading ? (
+          <div className="flex items-center justify-center">
+            <SpinnerMini />
+          </div>
+        ) : (
+          <Button type="submit" variant="primary" className="w-full">
+            ورود
+          </Button>
+        )}
         <Link href={"/signin"} className="text-secondary-500 mt-6 text-center">
           ورود
         </Link>
