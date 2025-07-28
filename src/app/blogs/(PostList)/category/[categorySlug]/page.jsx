@@ -1,17 +1,18 @@
+import { getPosts } from "@/services/postServices";
 import { setCookieOnReq } from "@/utils/setCookieOnReq";
 import PostList from "app/blogs/_components/PostList";
 import { cookies } from "next/headers";
+import queryString from "query-string";
 import React from "react";
 
-export default async function Category({ params }) {
+export default async function Category({ params, searchParams }) {
   const { categorySlug } = params;
+  const querise =
+    queryString.stringify(searchParams) + `&categorySlug=${categorySlug}`;
+  const cookieStore = cookies();
+  const options = setCookieOnReq(cookieStore);
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/post/list?categorySlug=${categorySlug}`
-  );
-  const { data } = await res.json();
-
-  const { posts } = data || {};
+  const posts = await getPosts(options, querise);
 
   return (
     <div>
