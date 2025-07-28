@@ -7,16 +7,16 @@ import Avatar from "@/ui/Avatar";
 import Author from "./Author";
 import PostIntaction from "./PostIntaction";
 import { getPosts } from "@/services/postServices";
+import { cookies } from "next/headers";
+import { setCookieOnReq } from "@/utils/setCookieOnReq";
 
 export default async function PostList() {
   await new Promise((res) => setTimeout(() => res(), 3000));
 
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/list`);
-  // const {
-  //   data: { posts },
-  // } = await res.json();
+  const cookieStore = cookies();
+  const options = setCookieOnReq(cookieStore);
 
-  const posts = await getPosts();
+  const posts = await getPosts(options);
 
   return posts.length > 0 ? (
     <div className="grid grid-cols-12 gap-8">

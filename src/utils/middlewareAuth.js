@@ -8,7 +8,7 @@ export async function middlewareAuth(request) {
     method: "GET",
     Credential: "include",
     headers: {
-      Cookie: `${accessToken.name}=${accessToken.value}; ${refreshToken.name}=${refreshToken.value};`,
+      Cookie: `${accessToken?.name}=${accessToken?.value}; ${refreshToken?.name}=${refreshToken?.value};`,
     },
   };
 
