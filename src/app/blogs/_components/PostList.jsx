@@ -3,21 +3,10 @@ import React from "react";
 import CoverImage from "./CoverImage";
 import Link from "next/link";
 import { ClockIcon } from "@heroicons/react/24/outline";
-import Avatar from "@/ui/Avatar";
 import Author from "./Author";
 import PostIntaction from "./PostIntaction";
-import { getPosts } from "@/services/postServices";
-import { cookies } from "next/headers";
-import { setCookieOnReq } from "@/utils/setCookieOnReq";
 
-export default async function PostList() {
-  await new Promise((res) => setTimeout(() => res(), 3000));
-
-  const cookieStore = cookies();
-  const options = setCookieOnReq(cookieStore);
-
-  const posts = await getPosts(options);
-
+export default async function PostList({ posts }) {
   return posts.length > 0 ? (
     <div className="grid grid-cols-12 gap-8">
       {posts.map((post) => {
