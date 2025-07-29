@@ -23,6 +23,7 @@ function Comment({ comment, onAddComment }) {
         <div>
           {comment.openToComment && (
             <Button
+              onClick={onAddComment}
               variant="secondary"
               className="text-sm flex gap-x-1 p-1 rounded-lg text-secondary-500 bg-secondary-200"
             >
