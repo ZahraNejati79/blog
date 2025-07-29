@@ -1,14 +1,16 @@
 "use client";
 
 import { createComment } from "@/lib/actions";
-import Button from "@/ui/Button";
+import SubmitButton from "@/ui/SubmitButton";
 import TextArea from "@/ui/TextArea";
 import React, { useState } from "react";
 
+
 function CommentForm({ postId, parentId }) {
   const [text, setText] = useState("");
-
   const createCommentWithData = createComment.bind(null, postId, parentId);
+
+
   return (
     <div>
       <div className="flex justify-center mt-4">
@@ -22,7 +24,7 @@ function CommentForm({ postId, parentId }) {
               onChange={(e) => setText(e.target.value)}
             />
             <div className="mt-8">
-              <Button>ثبت</Button>
+              <SubmitButton>تایید</SubmitButton>
             </div>
           </form>
         </div>

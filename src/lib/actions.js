@@ -2,6 +2,7 @@
 
 import { createCommentApi } from "@/services/commentService";
 import { setCookieOnReq } from "@/utils/setCookieOnReq";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function createComment(postId, parentId, formData) {
@@ -23,4 +24,6 @@ export async function createComment(postId, parentId, formData) {
   } catch (error) {
     console.log(error?.response?.data?.message);
   }
+
+  revalidatePath("/blogs/[slug]");
 }
