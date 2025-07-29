@@ -9,7 +9,7 @@ function SubmitButton({ children, className, ...rest }) {
     <Button
       {...rest}
       disabled={pending}
-      className={`flex items-center justify-center gap-x-4py-4 ${className}`}
+      className={`flex items-center justify-center gap-x-4 py-4 w-full ${className}`}
     >
       {children}
       {pending && <SpinnerMini />}
