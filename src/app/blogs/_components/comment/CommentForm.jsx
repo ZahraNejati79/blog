@@ -1,16 +1,19 @@
 "use client";
 
+import { createComment } from "@/lib/actions";
 import Button from "@/ui/Button";
 import TextArea from "@/ui/TextArea";
 import React, { useState } from "react";
 
-function CommentForm() {
+function CommentForm({ postId, parentId }) {
   const [text, setText] = useState("");
+
+  const createCommentWithData = createComment.bind(null, postId, parentId);
   return (
     <div>
       <div className="flex justify-center mt-4">
         <div className="max-w-md  w-full">
-          <form className="space-y-7">
+          <form action={createCommentWithData} className="space-y-7">
             <TextArea
               name="text"
               label="متن نظر"

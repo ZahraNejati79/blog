@@ -4,7 +4,7 @@ export const setCookieOnReq = (cookies) => {
 
   const options = {
     method: "GET",
-    Credential: "include",
+    credentials: "include",
     headers: {
       Cookie: `${accessToken?.name}=${accessToken?.value}; ${refreshToken?.name}=${refreshToken?.value};`,
     },
