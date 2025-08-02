@@ -21,6 +21,10 @@ export async function getPosts(options, querise) {
   return posts;
 }
 
+export async function getAllPostsApi(options) {
+  return http.get("/post/list", options).then(({ data }) => data.data);
+}
+
 export async function likePostApi(postId) {
   return http.post(`/post/like/${postId}`).then(({ data }) => data.data);
 }

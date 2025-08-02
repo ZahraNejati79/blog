@@ -7,7 +7,7 @@ export default async function CategoryList() {
   const {
     data: { categories },
   } = await res.json();
-  console.log("categories", categories);
+
 
   return (
     <ul className="space-y-4">
