@@ -7,7 +7,7 @@ import { getAllPostsApi } from "./postServices";
 export async function fetchCardsData() {
   const cookiesStore = await cookies();
   const options = setCookieOnReq(cookiesStore);
-
+  await new Promise((resolve) => setTimeout(resolve, 4000));
   try {
     const data = await Promise.all([
       getAllCommentsApi(options),

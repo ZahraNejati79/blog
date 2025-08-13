@@ -4,9 +4,9 @@ import Table from "@/ui/Table";
 import React from "react";
 import PostRow from "./PostRow";
 
-async function PostsTable() {
-  const posts = await getPosts();
-  console.log(posts);
+async function PostsTable({ query = "" }) {
+  const posts = await getPosts(query);
+
   if (!posts.length) return <Empty resourceName="پستی" />;
 
   return (

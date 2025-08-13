@@ -11,7 +11,7 @@ export async function getPostBySlug(slug) {
   return post;
 }
 
-export async function getPosts(options, querise) {
+export async function getPosts(querise, options) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/post/list?${querise}`,
     options
