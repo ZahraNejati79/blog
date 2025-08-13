@@ -1,9 +1,8 @@
 import React, { Suspense } from "react";
-import { getPosts } from "@/services/postServices";
-import PostsTable from "../posts/_/components/PostsTable";
-import CardsWrapper from "../posts/_/components/CardsWrapper";
+
 import Fallback from "@/ui/FallBack";
-import LatestPost from "../posts/_/components/LatestPost";
+import CardsWrapper from "./posts/_/components/CardsWrapper";
+import LatestPost from "./posts/_/components/LatestPost";
 
 export default async function profile() {
   return (

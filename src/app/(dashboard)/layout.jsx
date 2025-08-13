@@ -1,6 +1,6 @@
 import React from "react";
-import SideBar from "./_components/SideBar";
-import Header from "./_components/Header";
+import SideBar from "./profile/_components/SideBar";
+import Header from "./profile/_components/Header";
 
 export const metadata = {
   title: "پروفایل",

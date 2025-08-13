@@ -1,5 +1,6 @@
 import { fetchCardsData } from "@/services/data";
-import Card from "app/(dashboard)/_components/Cards";
+import Card from "app/(dashboard)/profile/_components/Cards";
+
 import React from "react";
 
 async function CardsWrapper() {
