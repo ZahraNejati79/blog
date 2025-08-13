@@ -1,7 +1,10 @@
+"use client";
+
 import Table from "@/ui/Table";
 import { toLocalDateShort } from "@/utils/toLocalDateShort";
 import { trancateText } from "@/utils/trancateText";
 import React from "react";
+import { DeletePost, UpdatePost } from "./Buttons";
 
 const statusStyle = {
   free: {
@@ -15,7 +18,7 @@ const statusStyle = {
 };
 
 function PostRow({ index, post }) {
-  const { title, category, author, createdAt, type } = post;
+  const { id, title, category, author, createdAt, type } = post;
   return (
     <Table.Row>
       <td>{index + 1}</td>
@@ -28,7 +31,12 @@ function PostRow({ index, post }) {
           {statusStyle[type].label}
         </span>
       </td>
-      <td>...action</td>
+      <td>
+        <div className="flex items-center gap-x-4">
+          <DeletePost postId={id} />
+          <UpdatePost postId={id} />
+        </div>
+      </td>
     </Table.Row>
   );
 }
