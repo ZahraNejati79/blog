@@ -1,13 +1,22 @@
+"use client";
 import RHFSelect from "@/ui/RHFSelect";
 import RHFTextField from "@/ui/RHFTextField";
 import React from "react";
 import { useForm } from "react-hook-form";
 
-function PostForm() {
+import * as yup from "yup";
+import { useCategories } from "./useCategories";
+
+const schema = yup.object();
+function PostForm({ options }) {
+  const { categories } = useCategories(options);
   const {
     register,
     formState: { errors },
-  } = useForm();
+    reset,
+    handleSubmit,
+  } = useForm({ mode: "onTouched", resolver: schema });
+
   return (
     <form className="form">
       <RHFTextField
@@ -39,12 +48,7 @@ function PostForm() {
         label={"دسته بندی"}
         errors={errors}
         register={register}
-        options={[
-          {
-            label: "عنوانش",
-            value: "value1",
-          },
-        ]}
+        options={categories}
       />
     </form>
   );
