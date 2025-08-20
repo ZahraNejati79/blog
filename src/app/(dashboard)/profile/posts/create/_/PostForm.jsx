@@ -1,7 +1,7 @@
 "use client";
 import RHFSelect from "@/ui/RHFSelect";
 import RHFTextField from "@/ui/RHFTextField";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { useCategories } from "./useCategories";
@@ -12,6 +12,8 @@ import Button from "@/ui/Button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCreatePost } from "./useCreatePost";
 import { useRouter } from "next/navigation";
+import { useEditPost } from "./useEditPost";
+import SpinnerMini from "@/ui/SpinnerMini";
 
 const schema = yup
   .object({
@@ -38,8 +40,39 @@ const schema = yup
   })
   .required();
 
-function PostForm({ options }) {
+function PostForm({ options, postToEdit = {} }) {
+  //edit
+  const { _id: editId } = postToEdit;
+  const isEditSessions = !!editId;
+  const {
+    title,
+    readingTime,
+    category,
+    slug,
+    text,
+    briefText,
+    coverImage,
+    coverImageUrl: prevCoverImageUrl,
+  } = postToEdit;
+  let editValue = {};
+  if (isEditSessions) {
+    editValue = {
+      title,
+      readingTime,
+      category: category._id,
+      slug,
+      text,
+      briefText,
+      coverImage,
+    };
+  }
+
+  const { isPending: isEditing, editPost } = useEditPost();
   const { categories } = useCategories(options);
+  const [coverImageUrl, setCoverImageUrl] = useState(prevCoverImageUrl || null);
+  const { isPending: isCreating, createPost } = useCreatePost();
+  const router = useRouter();
+
   const {
     register,
     formState: { errors },
@@ -47,10 +80,21 @@ function PostForm({ options }) {
     reset,
     handleSubmit,
     setValue,
-  } = useForm({ mode: "onTouched", resolver: yupResolver(schema) });
-  const [coverImageUrl, setCoverImageUrl] = useState(null);
-  const { isPending: isCreating, createPost } = useCreatePost();
-  const router = useRouter();
+  } = useForm({
+    mode: "onTouched",
+    resolver: yupResolver(schema),
+    defaultValues: isEditSessions ? editValue : null,
+  });
+
+  useEffect(() => {
+    if (isEditSessions) {
+      async function fetchMyApi() {
+        const file = await imageUrlToFile(prevCoverImageUrl);
+        setValue("coverImage", file);
+      }
+      fetchMyApi();
+    }
+  }, [editId]);
 
   const onSubmit = async (data) => {
     let form_data = new FormData();
@@ -58,11 +102,24 @@ function PostForm({ options }) {
     for (let key in data) {
       form_data.append(key, data[key]);
     }
-    createPost(form_data, {
-      onSuccess: () => {
-        router.push("/profile/posts/");
-      },
-    });
+
+    if (isEditSessions) {
+      editPost(
+        { data: form_data, id: editId },
+        {
+          onSuccess: () => {
+            reset();
+            router.push("/profile/posts/");
+          },
+        }
+      );
+    } else {
+      createPost(form_data, {
+        onSuccess: () => {
+          router.push("/profile/posts/");
+        },
+      });
+    }
   };
 
   return (
@@ -150,10 +207,13 @@ function PostForm({ options }) {
           </div>
         )}
       </div>
-      {/* <Button variant="primary" type="submit" className="w-full">
-        تایید
-      </Button> */}
-      <button type="submit">ok</button>
+      {isCreating || isEditing ? (
+        <SpinnerMini />
+      ) : (
+        <Button variant="primary" type="submit" className="w-full">
+          تایید
+        </Button>
+      )}
     </form>
   );
 }
