@@ -12,7 +12,6 @@ function RHFSelect({
 }) {
   const errorMessages = errors?.[name];
   const hasError = !!(errors && errorMessages);
-  console.log("options", options);
 
   return (
     <div

@@ -3,14 +3,41 @@ import RHFSelect from "@/ui/RHFSelect";
 import RHFTextField from "@/ui/RHFTextField";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-
 import * as yup from "yup";
 import { useCategories } from "./useCategories";
 import FileInput from "@/ui/FileInput";
 import Image from "next/image";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import Button from "@/ui/Button";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useCreatePost } from "./useCreatePost";
+import { useRouter } from "next/navigation";
 
-const schema = yup.object();
+const schema = yup
+  .object({
+    title: yup
+      .string()
+      .min(5, "حداقل ۵ کاراکتر را وارد کنید")
+      .required("عنوان ضروری است"),
+    briefText: yup
+      .string()
+      .min(5, "حداقل ۱۰ کاراکتر را وارد کنید")
+      .required("توضیحات ضروری است"),
+    text: yup
+      .string()
+      .min(5, "حداقل ۱۰ کاراکتر را وارد کنید")
+      .required("توضیحات ضروری است"),
+    slug: yup.string().required("اسلاگ ضروری است"),
+    readingTime: yup
+      .number()
+      .positive()
+      .integer()
+      .required("زمان مطالعه ضروری است")
+      .typeError("یک عدد را وارد کنید"),
+    category: yup.string().required("دسته بندی ضروری است"),
+  })
+  .required();
+
 function PostForm({ options }) {
   const { categories } = useCategories(options);
   const {
@@ -20,41 +47,67 @@ function PostForm({ options }) {
     reset,
     handleSubmit,
     setValue,
-  } = useForm({ mode: "onTouched", resolver: schema });
-
+  } = useForm({ mode: "onTouched", resolver: yupResolver(schema) });
   const [coverImageUrl, setCoverImageUrl] = useState(null);
+  const { isPending: isCreating, createPost } = useCreatePost();
+  const router = useRouter();
+
+  const onSubmit = async (data) => {
+    let form_data = new FormData();
+
+    for (let key in data) {
+      form_data.append(key, data[key]);
+    }
+    createPost(form_data, {
+      onSuccess: () => {
+        router.push("/profile/posts/");
+      },
+    });
+  };
 
   return (
-    <form className="form">
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
       <RHFTextField
         name="title"
         label={"عنوان"}
         errors={errors}
         register={register}
+        required
       />
       <RHFTextField
         name="briefText"
         label={"متن کوتاه"}
         errors={errors}
         register={register}
+        required
+      />
+      <RHFTextField
+        name="text"
+        label={"متن"}
+        errors={errors}
+        register={register}
+        required
       />
       <RHFTextField
         name="slug"
         label={"اسلاگ"}
         errors={errors}
         register={register}
+        required
       />
       <RHFTextField
         name="readingTime"
         label={"زمان مطالعه"}
         errors={errors}
         register={register}
+        required
       />
       <RHFSelect
-        name="categories"
+        name="category"
         label={"دسته بندی"}
         errors={errors}
         register={register}
+        required
         options={categories}
       />
       <div className="flex flex-col gap-4">
@@ -66,8 +119,6 @@ function PostForm({ options }) {
               value={value?.fileName}
               label={"آپلود کاور پست"}
               onChange={(event) => {
-                console.log("image", event.target);
-
                 const file = event.target.files[0];
                 onChange(file);
                 setCoverImageUrl(URL.createObjectURL(file));
@@ -99,6 +150,10 @@ function PostForm({ options }) {
           </div>
         )}
       </div>
+      {/* <Button variant="primary" type="submit" className="w-full">
+        تایید
+      </Button> */}
+      <button type="submit">ok</button>
     </form>
   );
 }
