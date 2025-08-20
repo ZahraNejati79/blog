@@ -9,8 +9,6 @@ export function useCategories(options) {
 
   const { categories: rowCategories = [] } = data || {};
 
-  console.log("dataaaaa", data);
-
   const categories = rowCategories.map((item) => ({
     label: item.title,
     value: item._id,
