@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
 import NavLink from "./NavLink";
+import { useAuth } from "@/context/AuthContext";
 
 const navLinks = [
   {
@@ -16,12 +18,21 @@ const navLinks = [
 ];
 
 function Header() {
-  // const { user, isLoading } = useAuth();
-  const user = false;
+  const { user, isLoading, getUser } = useAuth();
+
+  useEffect(() => {
+    async function fetchUser() {
+      await getUser();
+    }
+
+    fetchUser();
+  }, []);
 
   return (
     <header
-      className={`z-10 shadow-md bg-inherit mb-10 sticky top-0 transition-all duration-200 border-b border-b-secondary-300 `}
+      className={`z-10 shadow-md bg-inherit mb-10 sticky top-0 transition-all duration-200 border-b border-b-secondary-300 ${
+        isLoading ? "blur-sm opacity-70" : "opacity-100 blur-0"
+      }`}
     >
       <nav className="container xl:max-w-screen-xl">
         <ul className="flex items-center text-secondary-400 justify-between py-2">
