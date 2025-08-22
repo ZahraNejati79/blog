@@ -5,12 +5,20 @@ import ButtonIcon from "@/ui/ButtonIcon";
 import Drawer from "@/ui/Drawer";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 
 function Header({}) {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, getUser } = useAuth();
+
+  useEffect(() => {
+    async function fetchUser() {
+      await getUser();
+    }
+
+    fetchUser();
+  }, []);
 
   return (
     <header
