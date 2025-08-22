@@ -9,7 +9,11 @@ function Table({ children }) {
 }
 
 function TableHeader({ children }) {
-  return <tr>{children}</tr>;
+  return (
+    <thead>
+      <tr>{children}</tr>
+    </thead>
+  );
 }
 
 function TableBody({ children }) {
