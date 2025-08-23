@@ -12,7 +12,7 @@ export async function generateMetadata({ params }) {
 }
 
 export async function generateStaticParams() {
-  const posts = await getPosts();
+  const { posts } = await getPosts();
   const slugs = posts.map((item) => {
     return { slug: item.slug };
   });
