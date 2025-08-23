@@ -14,8 +14,7 @@ async function BlogPage({ searchParams }) {
   const cookieStore = cookies();
   const options = setCookieOnReq(cookieStore);
 
-  const { posts } = await getPosts(options, querise);
-  console.log("posts", posts);
+  const { posts } = await getPosts(querise, options);
 
   return <PostList posts={posts} />;
 }

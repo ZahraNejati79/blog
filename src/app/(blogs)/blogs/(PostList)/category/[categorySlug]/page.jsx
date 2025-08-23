@@ -7,12 +7,13 @@ import React from "react";
 
 export default async function Category({ params, searchParams }) {
   const { categorySlug } = params;
+
   const querise =
     queryString.stringify(searchParams) + `&categorySlug=${categorySlug}`;
   const cookieStore = cookies();
   const options = setCookieOnReq(cookieStore);
 
-  const posts = await getPosts(options, querise);
+  const { posts } = await getPosts(querise, options);
 
   return (
     <div>
